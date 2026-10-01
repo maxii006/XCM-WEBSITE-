@@ -1,0 +1,18 @@
+# XCM Network - clean URLs (Apache / LiteSpeed / cPanel hosting)
+# /survival-nation.html  ->  https://xcmnetwork.com/survival-nation
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+
+# /index.html -> /
+RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+RewriteRule ^index\.html$ / [R=301,L]
+
+# Visible "something.html" -> "something" (301 redirect, old links keep working)
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# Serve "something" from "something.html"
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^([^/]+)/?$ $1.html [L]
